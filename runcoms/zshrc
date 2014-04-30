@@ -1,3 +1,4 @@
+# -*- shell-script -*-
 #
 # Executes commands at the start of an interactive session.
 #
@@ -7,12 +8,31 @@
 
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+    source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
 # Customize to your needs...
-if [[ -n $EMACS ]]; then
-        alias ec='emacsclient -n'
+if [[ $EMACS == t ]]; then
+    alias ec='emacsclient -n'
+    # this is so git won't page in emacs shell
+    export GIT_PAGER=cat
+    export MANPAGER=cat
 else
-        alias ec='emacsclient'
+    alias ec='emacsclient'
 fi
+
+export DIRSTACKSIZE=8
+setopt autopushd pushdminus pushdsilent pushdtohome
+alias dh='dirs -v'
+
+function cdprj() {
+    local root=$(git rev-parse --show-toplevel)
+
+    if [[ -n $root ]]; then
+        cd $root
+    fi
+}
+
+# include host-local stuff
+source ~/.zshrc.local
+
