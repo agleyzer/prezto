@@ -13,12 +13,9 @@ fi
 
 # Customize to your needs...
 if [[ $EMACS == t ]]; then
-    alias ec='emacsclient -n'
     # this is so git won't page in emacs shell
     export GIT_PAGER=cat
     export MANPAGER=cat
-else
-    alias ec='emacsclient'
 fi
 
 export DIRSTACKSIZE=8
